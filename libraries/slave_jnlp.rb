@@ -64,7 +64,8 @@ class Chef
       slave_jar_resource.run_action(:create)
 
       # The Windows's specific child class manages it's own service
-      return if Chef::Platform.windows?
+      # and Mac OS X handles it's own service
+      return if Chef::Platform.windows? || node['platform'] == 'mac_os_x'
 
       service_resource.run_action(:enable)
       # We need to restart the service if the slave jar is updated
